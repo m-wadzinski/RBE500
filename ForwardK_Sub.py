@@ -10,15 +10,20 @@ class ForwardSubscriber(Node):
         self.subscription = self.create_subscription(Float32MultiArray, 'inputQ', self.listener_callback, 10)
         self.subscription  # Recommended by tutorial to prevent error
 
-    def listener_callback(self, msg):
+    def forward_calculation(self, msg):
         DH = ([1.0, 1.0, msg.data[0], 0.0],
               [1.0, 0.0, msg.data[1], 0.0],
               [0.0, msg.data[2], 0.0, 0.0])
+        
         A = []
         for x in DH:
             a = dh2a(x)
             A.append(a)
-        self.get_logger().info("\nInput:\n %s \nTransformation:\n %s" % (msg.data, str(np.matmul(np.matmul(A[0], A[1]), A[2]))))
+            
+        T = np.matmul(np.matmul(A[0], A[1]), A[2])
+        o03 = (T[0][3], T[1][3], T[2][3])
+        
+        self.get_logger().info("\nInput:\n %s \nPose:\n %s" % (msg.data, str(o03)))
 
 
 def main(args=None):
