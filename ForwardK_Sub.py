@@ -11,7 +11,7 @@ class ForwardSubscriber(Node):
         self.subscription  # Recommended by tutorial to prevent error
 
     def forward_calculation(self, msg):
-        # DH conventions
+        # DH conventions: [a, d, theta, alpha]
         DH = ([1.0, 1.0, msg.data[0], 0.0],
               [1.0, 0.0, msg.data[1], 0.0],
               [0.0, msg.data[2], 0.0, 0.0])
