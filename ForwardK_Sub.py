@@ -1,13 +1,13 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 import numpy as np
 
 class ForwardSubscriber(Node):
 
     def __init__(self):
         super().__init__('forward_subscriber')
-        self.subscription = self.create_subscription(Float32MultiArray, 'inputQ', self.forward_calculation, 10)
+        self.subscription = self.create_subscription(Float64MultiArray, 'forward_position_/controller/commands', self.forward_calculation, 10)
         self.subscription  # Recommended by tutorial to prevent error
 
     def forward_calculation(self, msg):
